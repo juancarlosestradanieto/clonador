@@ -1,0 +1,64 @@
+<html>
+	<head>
+		<script type="text/javascript" src="../libs/jquery.2.0.3.min.js" ></script>
+		<script>
+			/*
+			Juan Carlos Estrada Nieto
+			juancarlosestradanieto@gmail.com
+			2017
+			este codigo permite clonar elementos del dom
+			*/
+			$('document').ready(function(){
+			
+				$("#clonador").change(function(){
+				
+					//configuracion
+					var selector_elemento_a_clonar = "#elemento_a_clonar";
+					var selector_contenedor_elementos_clonados = "#contenedor_clones";
+					var clase_identificadora_de_los_clones = "soy_un_clon";
+					var clase_identificador_del_numero_de_clon = "numero_de_clon";
+					
+					var existentes = $('.'+clase_identificadora_de_los_clones).length;
+					var solicitados = $(this).val();
+					// console.log("hay: "+existentes+", solicitaron: "+solicitados);
+					
+					while(existentes < solicitados)
+					{
+						var idUnico=Date.now();
+						
+						$(selector_elemento_a_clonar)
+						.clone().removeAttr('id')
+						.attr("id",idUnico)
+						.attr("class",clase_identificadora_de_los_clones)
+						.appendTo(selector_contenedor_elementos_clonados);
+						
+						existentes++;
+						
+						$("#"+idUnico+" ."+clase_identificador_del_numero_de_clon).empty().append(existentes);
+						$("#"+idUnico).show();
+					}
+					while(existentes > solicitados)
+					{
+						$('.'+clase_identificadora_de_los_clones).last().remove();
+						existentes--;
+					}
+					
+				});
+				
+			});	
+		</script>
+	</head>
+	<body>
+	
+		<input type="number" id="clonador" min="1" max="5" onfocus="this.blur()" >
+		
+		<div id="elemento_a_clonar" hidden >
+			hola mundo, soy el clon #<b class="numero_de_clon">O</b>
+		</div>
+		
+		<div id="contenedor_clones">
+		
+		</div>
+		
+	</body>
+</html>
